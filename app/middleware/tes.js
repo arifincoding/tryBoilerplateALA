@@ -1,8 +1,6 @@
-module.exports = (req,res,next) => {
+module.exports = (req, res, next) => {
+  console.log("hi im from middleware");
 
-	req.name = "pug";
+  return next();
+};
 
-	console.log("hi im from middleware")
-
-	return next();
-}

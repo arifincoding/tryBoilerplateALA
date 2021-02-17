@@ -1,25 +1,41 @@
-const router = require("express").Router();
-//const userModel = require("../models/userModel");
 const model = require("../models");
-const tesMiddleware = require("../middleware/tes");
 
-router.get("/tesdb", async (req, res) => {
+const fetchUser = async (req, res) => {
   //tes db
   const result = await model.users.findAll();
 
-  res.status(200).json({
-    text: "helo world",
-    data: result,
+  res.json({
+    status: 200,
+    messages: "fetched",
+    data: [],
   });
-});
+};
 
-router.get("/", tesMiddleware, (req, res) => {
+const index = (req, res) => {
   //tes view engine
-  const msg = req.name;
-  res.status(200).render("index", {
-    name: msg,
-  });
-});
+  const number = req.params.number;
 
-module.exports = router;
+  if (number % 2 == 0) {
+    res.status(200).json({
+      status: 200,
+      messages: "OK",
+      data: [],
+    });
+  } else {
+    res.status(201).json({
+      status: 201,
+      messages: "CREATED",
+      data: [],
+    });
+  }
 
+  //for rendering pug
+  // res.status(200).render("index", {
+  //   name: msg,
+  // });
+};
+
+module.exports = {
+  fetchUser,
+  index,
+};

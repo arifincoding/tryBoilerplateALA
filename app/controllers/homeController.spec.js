@@ -1,9 +1,8 @@
-jest.mock("../models");
+jest.mock("../services/homeService");
 
-const model = require("../models");
-const { fetchUser, index } = require("./home");
+const { fetchUser, index } = require("./homeController");
+const homeService = require("../services/homeService");
 
-//fixture
 const fakeReturn = {
   status: 200,
   messages: "fetched",
@@ -24,19 +23,20 @@ describe("testing homeService/Controller", () => {
     });
 
     it("should have returned", async () => {
+      homeService.fetchUser = jest.fn().mockReturnValue(Promise.resolve([]));
       result = await fetchUser(req, res);
       expect(result).toEqual(fakeReturn);
     });
 
     it("should have model and res.json has been called", async () => {
-      model.users = {
-        findAll: jest.fn(),
-      };
+      homeService.fetchUser = jest
+        .fn()
+        .mockImplementation(() => Promise.resolve([]));
 
       await fetchUser(req, res);
 
       expect(res.json).toHaveBeenCalledWith(fakeReturn);
-      expect(model.users.findAll).toHaveBeenCalled();
+      expect(homeService.fetchUser).toHaveBeenCalled();
     });
   });
 
@@ -64,12 +64,15 @@ describe("testing homeService/Controller", () => {
         },
       };
 
+      homeService.checkNumber = jest.fn().mockImplementation((number) => true);
+
       const response = {};
       response.status = jest.fn().mockReturnValue(response);
       response.json = jest.fn().mockReturnValue(response);
 
       const result = index(request, response);
       expect(response.status).toHaveBeenCalledWith(200);
+      expect(homeService.checkNumber).toHaveBeenCalled();
       expect(result).toEqual(response);
     });
   });

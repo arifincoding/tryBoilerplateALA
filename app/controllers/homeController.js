@@ -1,13 +1,14 @@
 const model = require("../models");
+const homeService = require("../services/homeService");
 
 const fetchUser = async (req, res) => {
   //tes db
-  const result = await model.users.findAll();
+  const result = await homeService.fetchUser();
 
   return res.json({
     status: 200,
     messages: "fetched",
-    data: [],
+    data: result,
   });
 };
 
@@ -15,7 +16,9 @@ const index = (req, res) => {
   //tes view engine
   const number = req.params.number;
 
-  if (number % 2 === 0) {
+  const isEven = homeService.checkNumber(number);
+
+  if (isEven) {
     return res.status(200).json({
       status: 200,
       messages: "OK",

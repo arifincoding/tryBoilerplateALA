@@ -31,6 +31,5 @@ app.set("view engine", "pug");
 app.set("views", __dirname + "/app/resources/views/");
 
 // router
-app.use("/", router);
+app.use("/api", router);
 module.exports = app; //for e2e
-

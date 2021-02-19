@@ -1,5 +1,5 @@
-const model = require("../models");
-const homeService = require("../services/homeService");
+const model = require("../../../models");
+const homeService = require("../../../services/homeService");
 
 const fetchUser = async (req, res) => {
   //tes db
@@ -31,11 +31,6 @@ const index = (req, res) => {
       data: [],
     });
   }
-
-  //for rendering pug
-  // res.status(200).render("index", {
-  //   name: msg,
-  // });
 };
 
 module.exports = {

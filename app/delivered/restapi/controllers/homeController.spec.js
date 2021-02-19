@@ -1,7 +1,7 @@
-jest.mock("../services/homeService");
+jest.mock("../../../services/homeService");
 
 const { fetchUser, index } = require("./homeController");
-const homeService = require("../services/homeService");
+const homeService = require("../../../services/homeService");
 
 const fakeReturn = {
   status: 200,

@@ -1,6 +1,6 @@
 const { ApolloServer } = require("apollo-server-express");
-const typeDefs = require("./app/apollo/typeDef");
-const resolvers = require("./app/apollo/resolver");
+const typeDefs = require("./app/delivered/apollo/typeDef");
+const resolvers = require("./app/delivered/apollo/resolver");
 const app = require("./app");
 const db = require("./app/models");
 
@@ -21,7 +21,7 @@ db.sequelize
 const port = process.env.PORT || 3000;
 
 app.listen(port, process.env.HOSTNAME, () => {
-  console.log(`🚀 Server api ready at http://localhost:4000/api`);
+  console.log(`🚀 Server restapi ready at http://localhost:4000/api`);
   console.log(
     `🚀 Server graphql ready at http://localhost:4000${server.graphqlPath}`
   );

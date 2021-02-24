@@ -1,6 +1,6 @@
 const { ApolloServer } = require("apollo-server-express");
-const typeDefs = require("./app/delivered/apollo/typeDef");
-const resolvers = require("./app/delivered/apollo/resolver");
+const typeDefs = require("./app/deliverey/graphql/typeDef");
+const resolvers = require("./app/deliverey/graphql/resolver");
 const app = require("./app");
 const db = require("./app/models");
 
@@ -9,14 +9,14 @@ const server = new ApolloServer({ typeDefs, resolvers });
 server.applyMiddleware({ app });
 
 //tes loging db
-db.sequelize
-  .authenticate()
-  .then(() => {
-    console.log("Connection DB has been established successfully.");
-  })
-  .catch((err) => {
-    console.error("Unable to connect to the database:", err);
-  });
+// db.sequelize
+//   .authenticate()
+//   .then(() => {
+//     console.log("Connection DB has been established successfully.");
+//   })
+//   .catch((err) => {
+//     console.error("Unable to connect to the database:", err);
+//   });
 
 const port = process.env.PORT || 3000;
 

@@ -4,7 +4,7 @@ const router = express.Router();
 
 const homeController = require("./controllers/homeController");
 
-router.get("/user", middlewareExample, homeController.fetchUser);
+router.get("/user/fetch", middlewareExample, homeController.fetchUser);
 router.get("/:number", homeController.index);
 
 module.exports = router;

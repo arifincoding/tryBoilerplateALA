@@ -1,5 +1,5 @@
 {
-  "name": "myMvc",
+  "name": "myBoilerplate",
   "version": "1.0.0",
   "description": "Express MVC starter pack",
   "main": "app.js",

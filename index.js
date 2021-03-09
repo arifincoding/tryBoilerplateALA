@@ -1,24 +1,17 @@
 const { ApolloServer } = require("apollo-server-express");
-const typeDefs = require("./app/delivered/apollo/typeDef");
-const resolvers = require("./app/delivered/apollo/resolver");
+const typeDefs = require("./app/deliverey/graphql/typeDef");
+const resolvers = require("./app/deliverey/graphql/resolver");
 const app = require("./app");
-const db = require("./app/models");
+const mongodb = require("./config/mongoose");
 
 //setup apollo server
 const server = new ApolloServer({ typeDefs, resolvers });
 server.applyMiddleware({ app });
 
-//tes loging db
-db.sequelize
-  .authenticate()
-  .then(() => {
-    console.log("Connection DB has been established successfully.");
-  })
-  .catch((err) => {
-    console.error("Unable to connect to the database:", err);
-  });
+//init db
+mongodb.initDb();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
 app.listen(port, process.env.HOSTNAME, () => {
   console.log(`🚀 Server restapi ready at http://localhost:4000/api`);

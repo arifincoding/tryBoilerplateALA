@@ -1,4 +1,3 @@
-const model = require("../../../models");
 const homeService = require("../../../services/homeService");
 
 const fetchUser = async (req, res) => {

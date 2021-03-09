@@ -1,7 +1,7 @@
-const model = require("../models");
+const userModel = require("../models/users");
 
 const fetchUser = async () => {
-  return model.users.findAll();
+  return userModel.find();
 };
 
 const checkNumber = (number) => {

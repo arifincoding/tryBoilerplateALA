@@ -1,7 +1,9 @@
 jest.mock("../../../services/homeService");
+jest.mock("../../../helpers/redis");
 
-const { fetchUser, index } = require("./homeController");
+const { fetchUser, index, testRedis } = require("./homeController");
 const homeService = require("../../../services/homeService");
+
 
 const fakeReturn = {
   status: 200,
@@ -39,6 +41,12 @@ describe("testing homeService/Controller", () => {
       expect(homeService.fetchUser).toHaveBeenCalled();
     });
   });
+
+  // describe("testing testRedis", () => {
+
+  //   it('sh')
+
+  // })
 
   describe("testing index function", () => {
     it("should have return 201 if req.params.number is odd value", () => {

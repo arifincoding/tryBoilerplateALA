@@ -1,7 +1,8 @@
 jest.mock("../models/users");
+jest.mock("redis")
 
 const modelUser = require("../models/users");
-const { fetchUser, checkNumber } = require("./homeService");
+const { fetchUser, checkNumber, testRedis } = require("./homeService");
 
 describe("homeService", () => {
   describe("fetchUser function", () => {
@@ -14,6 +15,14 @@ describe("homeService", () => {
       expect(result).toEqual(true);
     });
   });
+
+  describe("testRedis function",() => {
+    it("should have returned",async () => {
+      const result = await testRedis()
+
+      expect(result).toEqual('helo')
+    })
+  })
 
   describe("checkNumber function", () => {
     it("should return true if value is even", () => {

@@ -1,4 +1,6 @@
 const homeService = require("../../../services/homeService");
+const redisHelper = require("../../../helpers/redis");
+const md5 = require("md5")
 
 const fetchUser = async (req, res) => {
   //tes db
@@ -10,6 +12,28 @@ const fetchUser = async (req, res) => {
     data: result,
   });
 };
+
+const testRedis = async (req, res) => {
+  //tes redis
+  const key = req.params.key
+  const hash = md5(key)
+
+  const chache = await redisHelper.get(hash)
+  let result = null
+
+  if(!chache){
+    result = await homeService.testRedis()
+    await redisHelper.set(hash, result)
+  }else{
+    result = chache
+  }
+
+  return res.json({
+    status: 200,
+    messages: result,
+    data: []
+  })
+}
 
 const index = (req, res) => {
   //tes view engine
@@ -34,5 +58,6 @@ const index = (req, res) => {
 
 module.exports = {
   fetchUser,
-  index,
+  testRedis,
+  index,  
 };

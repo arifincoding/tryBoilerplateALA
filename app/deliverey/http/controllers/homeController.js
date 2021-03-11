@@ -1,6 +1,6 @@
 const homeService = require("../../../services/homeService");
 const redisHelper = require("../../../helpers/redis");
-const md5 = require("md5")
+const crypto = require("crypto-js")
 
 const fetchUser = async (req, res) => {
   //tes db
@@ -13,10 +13,31 @@ const fetchUser = async (req, res) => {
   });
 };
 
+const tesFetchData = async (req, res) => {
+
+  try{
+    const result = await homeService.testFetchData()
+  
+    res.status(200).json({
+      status: 200,
+      messages: 'fetched from remote api',
+      data: result.data
+    })
+  }catch(err){
+    err = new Error();
+    
+    res.status(500).json({
+      status: 500,
+      messages: 'ERROR',
+      data: err
+    })
+  }
+} 
+
 const testRedis = async (req, res) => {
   //tes redis
   const key = req.params.key
-  const hash = md5(key)
+  const hash = crypto.MD5(key)
 
   const chache = await redisHelper.get(hash)
   let result = null
@@ -59,5 +80,6 @@ const index = (req, res) => {
 module.exports = {
   fetchUser,
   testRedis,
-  index,  
+  index,
+  tesFetchData  
 };

@@ -1,6 +1,7 @@
 const db = require('../config/mongoose');
 const mongoose = require("mongoose");
 const request = require("supertest");
+const redis = require("../config/redisConfig");
 const app = require("../app");
 
 describe("testing api e2e", () => {
@@ -30,6 +31,7 @@ describe("testing api e2e", () => {
 
   afterAll((done) => {
     mongoose.connection.close()
+    redis.quit()
     done();
   });
 

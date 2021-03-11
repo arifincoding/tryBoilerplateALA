@@ -1,14 +1,84 @@
-const jwt = require("jsonwebtoken");
+const crypto = require('crypto-js')
+const jwt = require('jsonwebtoken')
 
-module.exports = (res, username, data) => {
-  const token = jwt.sign({ username, data }, process.env.jwtPrivateKey, {
-    expiresIn: "7d",
-  });
+/**
+ * encode base64
+ * 
+ * @param {any} source 
+ * @returns {string}
+ */
+const  base64url = (source) => {
+  // Encode in classical base64
+  encodedSource = crypto.enc.Base64.stringify(source);
 
-  return res.cookie("token", token, {
-    expires: new Date(Date.now() + 604800000),
-    secure: process.env.NODE_ENV == "development" ? false : true,
-    httpOnly: true,
-  });
+  // Remove padding equal characters
+  encodedSource = encodedSource.replace(/=+$/, '');
+
+  // Replace characters according to base64url specifications
+  encodedSource = encodedSource.replace(/\+/g, '-');
+  encodedSource = encodedSource.replace(/\//g, '_');
+
+  return encodedSource;
+}
+
+
+/**
+ * generate jwt token
+ * 
+ * @param {string} lat 
+ * @param {strin} lng 
+ * @returns \{token: string, publicKey: string\}
+ */
+const genToken =  (lat = '-7.8162001', lng = '110.3737914') => {
+
+  const appID = "com.gear.dragonfly.ala";
+
+  const header = {
+    "alg": "HS256",
+    "typ": "JWT",
+    "kid": appID,
+    "knd": "anonymous",
+  };
+
+  const now = parseInt(((new Date()).valueOf() / 1000).toFixed());
+
+  const data = {
+    "knd": "anonymous",
+    "sub": "testd01",
+    "l2i": `${lat},${lng}`,
+    "aud": "http://dev.alainaja.com",
+    "iss": appID,
+    "iat": now,
+    "nbf": now,
+    "exp": now + (30 * 15),
+  };
+
+  const privateKey = "ala-partner";
+  
+  const appIDMD5 = crypto.MD5(appID).toString()
+  const publicKey = `@alainaja.com! ${appIDMD5}`;
+
+  const receipt = `anonymous@${privateKey}#${data.iss}:${data.sub}:${data.aud}:(${data.iat}+${data.nbf}+${data.exp})~${data.l2i}`;
+  data.jti = crypto.MD5(receipt).toString();
+  
+  const encodedHeader = base64url(crypto.enc.Utf8.parse(JSON.stringify(header)));
+  
+  const encodedData = base64url(crypto.enc.Utf8.parse(JSON.stringify(data)));
+  
+  const token = encodedHeader + "." + encodedData;
+  
+  let signature = crypto.HmacSHA256(token, publicKey);
+  signature = base64url(signature);
+  
+  const signedToken = token + "." + signature;
+
+  return {
+   token: signedToken,
+   publicKey  
+  }
+
 };
 
+module.exports = { 
+  genToken
+}

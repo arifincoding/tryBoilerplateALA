@@ -42,9 +42,19 @@ const checkNumber = (number) => {
   return false;
 };
 
+const insertUser = async (req)=>{
+  userModel.create({username:req.body.username, password:req.body.password},(err,response)=>{
+    if(err){
+      return console.log(err)
+    }
+    return console.log(response)
+  })
+}
+
 module.exports = {
   fetchUser,
   checkNumber,
   testRedis,
-  testFetchData
+  testFetchData,
+  insertUser
 };

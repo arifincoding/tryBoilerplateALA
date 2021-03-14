@@ -26,7 +26,7 @@ redis.on("connect", function(error) {
 const port = process.env.PORT || 4000;
 
 app.listen(port, process.env.HOSTNAME, () => {
-  console.log(`🚀 Server restapi ready at http://localhost:4000/api`);
+  console.log(`🚀 Server restapi ready at http://localhost:4000/apis`);
   console.log(
     `🚀 Server graphql ready at http://localhost:4000${server.graphqlPath}`
   );

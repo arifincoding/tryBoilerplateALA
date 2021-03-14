@@ -6,7 +6,7 @@ const initDb = () => {
         const user = process.env.DB_USERNAME;
         const pass = process.env.DB_PASSWORD;
         const dbName = process.env.DB_NAME;
-        mongoose.connect(`mongodb+srv://${user}:${pass}@${host}/${dbName}?retryWrites=true&w=majority`, { useNewUrlParser: true , logger: true, useUnifiedTopology: true})
+        mongoose.connect(`mongodb://${user}:${pass}@${host}/${dbName}?retryWrites=true&w=majority`, { useNewUrlParser: true , logger: true, useUnifiedTopology: true})
         .then((conn) => {
             console.log("db connected");
         })

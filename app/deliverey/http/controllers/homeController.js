@@ -22,6 +22,15 @@ const insertUser = async (req, res) =>{
     messages: "created"
   });
 }
+  const updateUser = async (req, res) =>{
+
+    const result = await homeService.updateUser(req);
+
+    return res.json({
+      status:200,
+      messages: "updated"
+    });
+  }
 
 const tesFetchData = async (req, res) => {
 
@@ -92,5 +101,6 @@ module.exports = {
   testRedis,
   index,
   tesFetchData,
-  insertUser  
+  insertUser,  
+  updateUser
 };

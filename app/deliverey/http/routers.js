@@ -9,5 +9,6 @@ router.get("/user/fetch", middlewareExample, homeController.fetchUser);
 router.get("/redis/tes/:key",homeController.testRedis)
 router.get("/:number", homeController.index);
 router.post("/user/insert",homeController.insertUser);
+router.put("/user/update",homeController.updateUser)
 
 module.exports = router;

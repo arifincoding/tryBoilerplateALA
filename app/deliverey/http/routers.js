@@ -8,5 +8,6 @@ router.get("/axios/tes", homeController.tesFetchData)
 router.get("/user/fetch", middlewareExample, homeController.fetchUser);
 router.get("/redis/tes/:key",homeController.testRedis)
 router.get("/:number", homeController.index);
+router.put("/user/update",homeController.updateUser)
 
 module.exports = router;

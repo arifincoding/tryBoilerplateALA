@@ -13,25 +13,6 @@ const fetchUser = async (req, res) => {
   });
 };
 
-const insertUser = async (req, res) =>{
-  
-  const result = await homeService.insertUser(req);
-
-  return res.json({
-    status: 200,
-    messages: "created"
-  });
-}
-  const updateUser = async (req, res) =>{
-
-    const result = await homeService.updateUser(req);
-
-    return res.json({
-      status:200,
-      messages: "updated"
-    });
-  }
-
 const tesFetchData = async (req, res) => {
 
   try{
@@ -101,6 +82,4 @@ module.exports = {
   testRedis,
   index,
   tesFetchData,
-  insertUser,  
-  updateUser
 };

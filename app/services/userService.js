@@ -31,8 +31,13 @@ const insertUser = async (req)=>{
     })
 }
 
+const getByUsername = async (user)=>{
+    return userModel.findOne({username:user}).exec()
+}
+
 module.exports = {
     fetchUser,
     updateUser,
-    insertUser
+    insertUser,
+    getByUsername
 }

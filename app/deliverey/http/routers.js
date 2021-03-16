@@ -12,6 +12,6 @@ router.get("/:number", homeController.index);
 router.get("/user/get",userController.fetchUser)
 router.post("/user/insert",userController.insertUser);
 router.put("/user/update",userController.updateUser)
-router.get("/user/:username",userController.getByUsername)
+router.get("/user/get/:username",userController.getByUsername)
 
 module.exports = router;

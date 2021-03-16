@@ -35,9 +35,14 @@ const getByUsername = async (user)=>{
     return userModel.findOne({username:user}).exec()
 }
 
+const deleteByUsername = async (user)=>{
+    await userModel.deleteOne({username:user});
+}
+
 module.exports = {
     fetchUser,
     updateUser,
     insertUser,
-    getByUsername
+    getByUsername,
+    deleteByUsername
 }

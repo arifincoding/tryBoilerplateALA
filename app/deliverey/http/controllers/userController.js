@@ -43,9 +43,20 @@ const getByUsername = async (req, res)=>{
     })
 }
 
+const deleteByUsername = async (req,res)=>{
+    const user = req.params.username
+    const result = await userService.deleteByUsername(user)
+
+    return res.json({
+        status:200,
+        messages:"deleted"
+    })
+}
+
 module.exports = {
     fetchUser,
     insertUser,
     updateUser,
-    getByUsername
+    getByUsername,
+    deleteByUsername
 }

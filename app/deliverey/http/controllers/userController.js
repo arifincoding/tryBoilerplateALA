@@ -1,9 +1,18 @@
 const userService = require("../../../services/userService");
 const crypto = require("crypto-js")
+const redisHelper = require("../../../helpers/redis")
 
 const fetchUser = async (req, res) => {
-  //tes db
-    const result = await userService.fetchUser();
+//   tes db
+    const cache = await redisHelper.get('getAllUser');
+    let result = null;
+
+    if(!cache){
+        result = await userService.fetchUser();
+        redisHelper.set('getAllUser',JSON.stringify(result));
+    }else{
+        result = JSON.parse(cache);
+    }
 
     return res.json({
         status: 200,

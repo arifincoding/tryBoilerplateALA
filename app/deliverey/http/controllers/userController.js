@@ -56,14 +56,36 @@ const updateUser = async (req, res) =>{
 }
 
 const getByUsername = async (req, res)=>{
-    const user = req.params.username
-    const result = await userService.getByUsername(user);
+    
+    try{
+    const user = req.params.username;
+    const hash = crypto.MD5("user"+user);
+    const cache = await redisHelper.get(hash.toString());
+    let result = null;
+
+    if(!cache){
+        result = await userService.getByUsername(user);
+        if(result){
+            redisHelper.set(hash.toString(),JSON.stringify(result));
+        }
+    }else{
+        result = JSON.parse(cache);
+    }
 
     return res.json({
         status:200,
         messages: "fetched",
         data: result
     })
+}catch(err){
+    err = new Error();
+
+    res.status(500).json({
+        status:500,
+        message:"Error",
+        data:err
+    })
+}
 }
 
 const deleteByUsername = async (req,res)=>{

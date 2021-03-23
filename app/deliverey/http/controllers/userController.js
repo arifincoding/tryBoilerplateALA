@@ -1,6 +1,7 @@
 const userService = require("../../../services/userService");
 const redisHelper = require("../../../helpers/redis")
 const crypto = require("crypto-js")
+const {validationResult} = require('express-validator');
 
 
 const fetchUser = async (req, res) => {
@@ -37,7 +38,13 @@ const fetchUser = async (req, res) => {
 
 const insertUser = async (req, res) =>{
 
-    const result = await userService.insertUser(req);
+    const errors = await validationResult(req)
+    
+    if (!errors.isEmpty()) {
+        return res.status(422).json(errors.array());
+    }
+    
+    await userService.insertUser(req);
 
     return res.json({
         status: 200,

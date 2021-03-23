@@ -1,24 +1,38 @@
 const userService = require("../../../services/userService");
-const crypto = require("crypto-js")
 const redisHelper = require("../../../helpers/redis")
+const crypto = require("crypto-js")
+
 
 const fetchUser = async (req, res) => {
 //   tes db
-    const cache = await redisHelper.get('getAllUser');
-    let result = null;
+    try{
+        const key = 'getAllUser';
+        const hash = crypto.MD5(key)
+        
+        const cache = await redisHelper.get(hash.toString());
+        let result = null;
 
-    if(!cache){
-        result = await userService.fetchUser();
-        redisHelper.set('getAllUser',JSON.stringify(result));
-    }else{
-        result = JSON.parse(cache);
+        if(!cache){
+            result = await userService.fetchUser();
+            redisHelper.set(hash.toString(),JSON.stringify(result));
+        }else{
+            result = JSON.parse(cache);
+        }
+
+        return res.json({
+            status: 200,
+            messages: "fetched",
+            data: result,
+        });
+    }catch(err){
+        err = new Error();
+
+        res.status(500).json({
+            status:500,
+            message: "Error",
+            data:err
+        })
     }
-
-    return res.json({
-        status: 200,
-        messages: "fetched",
-        data: result,
-    });
 };
 
 const insertUser = async (req, res) =>{

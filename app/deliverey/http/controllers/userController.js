@@ -54,7 +54,13 @@ const insertUser = async (req, res) =>{
 }
 const updateUser = async (req, res) =>{
 
-    const result = await userService.updateUser(req);
+    const errors = await validationResult(req)
+    
+    if (!errors.isEmpty()) {
+        return res.status(422).json(errors.array());
+    }
+
+    await userService.updateUser(req);
 
     return res.json({
         status:200,
@@ -97,7 +103,7 @@ const getByUsername = async (req, res)=>{
 
 const deleteByUsername = async (req,res)=>{
     const user = req.params.username
-    const result = await userService.deleteByUsername(user)
+    await userService.deleteByUsername(user)
 
     return res.json({
         status:200,

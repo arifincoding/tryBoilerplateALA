@@ -12,7 +12,7 @@ router.get("/redis/tes/:key",homeController.testRedis)
 router.get("/:number", homeController.index);
 router.get("/user/get",userController.fetchUser)
 router.post("/user/insert",userMiddleware,userController.insertUser);
-router.put("/user/update",userController.updateUser)
+router.put("/user/update",userMiddleware,userController.updateUser)
 router.get("/user/get/:username",userController.getByUsername)
 router.delete("/user/delete/:username",userController.deleteByUsername)
 

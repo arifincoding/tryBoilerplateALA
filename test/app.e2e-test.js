@@ -29,6 +29,48 @@ describe("testing api e2e", () => {
     });
   });
 
+  describe("endpoint /user/get", ()=>{
+    it("should have return all user data", async ()=>{
+      await request(app).get("/apis/user/get").expect(200);
+    });
+  });
+
+  describe("endpoint /user/insert", ()=>{
+    it("should have inserted data user and return result", async ()=>{
+      await request(app)
+      .post('/apis/user/insert')
+      .send({username:'karl',password:'12345678'})
+      .set('Accept','application/json')
+      .expect(200)
+    })
+  })
+
+  describe("endpoint /user/get/:username",()=>{
+    it("should have return selected data user by username",async()=>{
+      await request(app)
+      .get('/apis/user/get/karl')
+      .expect(200)
+    })
+  })
+
+  describe("endpoint /user/update", ()=>{
+    it("should have updated selected data user by username and return result",async ()=>{
+      await request(app)
+      .put('/apis/user/update')
+      .send({user:'karl',username:'karl','password':'87654321'})
+      .set('Accept','application/json')
+      .expect(200)
+    })
+  })
+
+  describe("endpoint user/delete/:username",()=>{
+    it("should have deleted selected data by username and return result", async ()=>{
+      await request(app)
+      .delete('/apis/user/delete/karl')
+      .expect(200)
+    })
+  })
+
   afterAll((done) => {
     mongoose.connection.close()
     redis.quit()
